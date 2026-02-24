@@ -4,6 +4,8 @@ import dotenv from "dotenv"
 import ConnectDb from "./config/db.js"
 import collegeRoutes from "./routes/college.route.js"
 import userRoutes from "./routes/user.route.js"
+import blogRoutes from "./routes/blog.route.js"
+import contactInfoRoutes from "./routes/contactInfo.route.js"
 dotenv.config()
 
 
@@ -14,6 +16,8 @@ app.use(express.json())
 
 app.use("/api", collegeRoutes)
 app.use("/api", userRoutes)
+app.use("/api", blogRoutes)
+app.use("/api", contactInfoRoutes)
 
 const PORT = process.env.PORT 
 
