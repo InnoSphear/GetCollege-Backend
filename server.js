@@ -21,6 +21,10 @@ app.use("/api", blogRoutes)
 app.use("/api", contactInfoRoutes)
 app.use("/api", sitemapRoutes)
 
+app.get('/', (req,res)=>{
+    res.send("I am working")
+})
+
 const PORT = process.env.PORT 
 
 
