@@ -51,6 +51,36 @@ const blogSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    metaTitle: {
+      type: String,
+      trim: true,
+    },
+    metaDescription: {
+      type: String,
+      trim: true,
+    },
+    metaKeywords: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+    ogImage: {
+      type: String,
+      trim: true,
+    },
+    canonicalUrl: {
+      type: String,
+      trim: true,
+    },
+    ctaButtonText: {
+      type: String,
+      trim: true,
+    },
+    ctaButtonLink: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true }
 );
