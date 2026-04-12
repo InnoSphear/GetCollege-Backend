@@ -5,6 +5,7 @@ import {
   getCollegeById,
   updateCollege,
   deleteCollege,
+  compareColleges,
 } from "../controllers/college.controller.js";
 
 const router = express.Router();
@@ -14,6 +15,7 @@ router.post("/college", createCollege);
 
 // Get All Colleges
 router.get("/college", getAllColleges);
+router.get("/college-compare", compareColleges);
 
 // Get College By ID
 router.get("/college/:id", getCollegeById);
