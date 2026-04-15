@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://getcollegeadmission.com/colleges</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/colleges"/>
+  </url>
+  <url>
+    <loc>https://getcollegeadmission.com/engineering</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/engineering"/>
+  </url>
+  <url>
+    <loc>https://getcollegeadmission.com/medical</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/medical"/>
+  </url>
+  <url>
+    <loc>https://getcollegeadmission.com/management</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/management"/>
+  </url>
+
+  <!-- Individual College Pages -->
+  <url>
+    <loc>https://getcollegeadmission.com/college/iit-delhi-507f1f77bcf86cd799439011</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/college/iit-delhi-507f1f77bcf86cd799439011"/>
+  </url>
+  <url>
+    <loc>https://getcollegeadmission.com/college/iit-bombay-507f1f77bcf86cd799439012</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/college/iit-bombay-507f1f77bcf86cd799439012"/>
+  </url>
+  <url>
+    <loc>https://getcollegeadmission.com/college/aiims-delhi-507f1f77bcf86cd799439013</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/college/aiims-delhi-507f1f77bcf86cd799439013"/>
+  </url>
+</urlset>

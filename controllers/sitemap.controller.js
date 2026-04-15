@@ -1,6 +1,8 @@
 import College from "../models/college.model.js";
 import Blog from "../models/blog.model.js";
 
+const BASE_URL = "https://getcollegeadmission.com";
+
 const generateSlug = (text) => {
   return text
     .toLowerCase()
@@ -10,67 +12,117 @@ const generateSlug = (text) => {
     .trim();
 };
 
-export const generateSitemap = async (req, res) => {
+export const generateLegacySitemap = async (req, res) => {
   try {
-    const baseUrl = "https://getcollegeadmission.com";
+    const today = new Date().toISOString().split("T")[0];
 
     const [colleges, blogs] = await Promise.all([
-      College.find({}, "name slug").lean(),
-      Blog.find({ isPublished: true }, "title slug").lean(),
+      College.find({}, "name slug updatedAt").lean(),
+      Blog.find({ isPublished: true }, "title slug category tags updatedAt coverImage")
+        .lean(),
     ]);
 
+    const seenBlogSlugs = new Set();
+    const uniqueBlogs = blogs.filter((blog) => {
+      if (seenBlogSlugs.has(blog.slug)) return false;
+      seenBlogSlugs.add(blog.slug);
+      return true;
+    });
+
     const staticPages = [
-      { url: "/", priority: "1.0", changefreq: "daily" },
-      { url: "/colleges", priority: "0.9", changefreq: "daily" },
-      { url: "/blogs", priority: "0.9", changefreq: "weekly" },
-      { url: "/engineering", priority: "0.8", changefreq: "weekly" },
-      { url: "/medical", priority: "0.8", changefreq: "weekly" },
-      { url: "/managment", priority: "0.8", changefreq: "weekly" },
-      { url: "/contact", priority: "0.7", changefreq: "monthly" },
+      { url: "/", priority: "1.0", changefreq: "daily", lastmod: today },
+      { url: "/colleges", priority: "0.9", changefreq: "daily", lastmod: today },
+      { url: "/blogs", priority: "0.9", changefreq: "daily", lastmod: today },
+      { url: "/engineering", priority: "0.85", changefreq: "weekly", lastmod: today },
+      { url: "/medical", priority: "0.85", changefreq: "weekly", lastmod: today },
+      { url: "/management", priority: "0.85", changefreq: "weekly", lastmod: today },
+      { url: "/about", priority: "0.7", changefreq: "monthly", lastmod: today },
+      { url: "/contact", priority: "0.8", changefreq: "monthly", lastmod: today },
+      { url: "/privacy-policy", priority: "0.5", changefreq: "yearly", lastmod: today },
+      { url: "/terms-of-service", priority: "0.5", changefreq: "yearly", lastmod: today },
     ];
 
-    const collegeUrls = colleges.map((college) => {
-      const slug = college.slug || generateSlug(college.name);
-      return {
-        url: `/college/${slug}-${college._id}`,
-        priority: "0.8",
-        changefreq: "weekly",
-      };
-    });
+    const categoryPages = [...new Set(uniqueBlogs.map((b) => b.category.toLowerCase()))];
+    const categoryUrls = categoryPages.map((cat) => ({
+      url: `/blogs?category=${encodeURIComponent(cat)}`,
+      priority: "0.85",
+      changefreq: "daily",
+      lastmod: today,
+    }));
 
-    const blogUrls = blogs.map((blog) => {
-      const slug = blog.slug || generateSlug(blog.title);
-      return {
-        url: `/blogs/${slug}-${blog._id}`,
-        priority: "0.7",
-        changefreq: "monthly",
-      };
-    });
+    const collegeUrls = colleges.map((college) => ({
+      url: `/college/${college.slug || generateSlug(college.name)}-${college._id}`,
+      priority: "0.75",
+      changefreq: "weekly",
+      lastmod: college.updatedAt
+        ? new Date(college.updatedAt).toISOString().split("T")[0]
+        : today,
+    }));
 
-    const allUrls = [...staticPages, ...collegeUrls, ...blogUrls];
+    const blogUrls = uniqueBlogs.map((blog) => ({
+      url: `/blogs/${blog.slug || generateSlug(blog.title)}-${blog._id}`,
+      priority: "0.8",
+      changefreq: "monthly",
+      lastmod: blog.updatedAt
+        ? new Date(blog.updatedAt).toISOString().split("T")[0]
+        : today,
+      coverImage: blog.coverImage,
+      title: blog.title,
+    }));
 
-    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+    const allUrls = [
+      ...staticPages,
+      ...categoryUrls,
+      ...collegeUrls,
+      ...blogUrls,
+    ];
+
+    let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 ${allUrls
-  .map(
-    (page) => `  <url>
-    <loc>${baseUrl}${page.url}</loc>
+  .map((page) => {
+    let entry = `  <url>
+    <loc>${BASE_URL}${page.url}</loc>
+    <lastmod>${page.lastmod}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
-  </url>`
-  )
+    <xhtml:link rel="alternate" hreflang="en" href="${BASE_URL}${page.url}"/>`;
+
+    if (page.coverImage) {
+      entry += `
+    <image:image>
+      <image:loc>${page.coverImage}</image:loc>
+      <image:title>${escapeXml(page.title || "")}</image:title>
+    </image:image>`;
+    }
+
+    entry += `
+  </url>`;
+    return entry;
+  })
   .join("\n")}
 </urlset>`;
 
-    res.setHeader("Content-Type", "application/xml");
-    res.setHeader("Cache-Control", "public, max-age=86400");
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400");
     res.send(sitemap);
   } catch (error) {
     console.error("Sitemap generation error:", error);
     res.status(500).send("Error generating sitemap");
   }
 };
+
+function escapeXml(unsafe) {
+  if (!unsafe) return "";
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}

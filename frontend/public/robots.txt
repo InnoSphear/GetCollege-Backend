@@ -1,0 +1,10 @@
+# Robots.txt for GetCollegeAdmission.com
+# Generated: 2026-04-15
+
+User-agent: *
+Allow: /
+
+Sitemap: https://getcollegeadmission.com/sitemap.xml
+
+Disallow: /api/
+Disallow: /admin/
