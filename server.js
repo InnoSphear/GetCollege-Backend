@@ -15,10 +15,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin: ['http://localhost:5173', 'https://getcollegeadmission.in', /\.nopaperforms\.com$/],
-  credentials: true
-}));
+app.use(cors())
 app.use(express.json());
 app.use("/api", collegeRoutes);
 app.use("/api", userRoutes);
