@@ -1,7 +1,7 @@
 import College from "../models/college.model.js";
 import Blog from "../models/blog.model.js";
 
-const BASE_URL = "https://getcollegeadmission.com";
+const BASE_URL = process.env.BASE_URL || "https://getcollegeadmission.in";
 
 const generateSlug = (text) => {
   return text

@@ -2,111 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <!-- Blog Category Pages -->
   <url>
-    <loc>https://getcollegeadmission.com/blogs?category=engineering</loc>
+    <loc>/blogs</loc>
+    <lastmod>2026-04-15</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?category=medical</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?category=management</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-
-  <!-- Blog Tag Pages -->
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?tag=engineering</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?tag=iit</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?tag=colleges</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?tag=neet</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?tag=medical</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?tag=preparation</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?tag=mba</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?tag=management</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2026-04-15</lastmod>
-  </url>
-  <url>
-    <loc>https://getcollegeadmission.com/blogs?tag=admissions</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>2026-04-15</lastmod>
+    <priority>0.9</priority>
   </url>
 
   <!-- Individual Blog Posts -->
   <url>
-    <loc>https://getcollegeadmission.com/blogs/top-engineering-colleges-india-2026-607f1f77bcf86cd799439011</loc>
+    <loc>/blogs/top-engineering-colleges-india-2026-607f1f77bcf86cd799439011</loc>
     <lastmod>2026-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/blogs/top-engineering-colleges-india-2026-607f1f77bcf86cd799439011"/>
     <image:image>
       <image:loc>https://example.com/image1.jpg</image:loc>
       <image:title>Top Engineering Colleges in India 2026</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://getcollegeadmission.com/blogs/neet-2026-preparation-guide-607f1f77bcf86cd799439012</loc>
+    <loc>/blogs/neet-2026-preparation-guide-607f1f77bcf86cd799439012</loc>
     <lastmod>2026-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/blogs/neet-2026-preparation-guide-607f1f77bcf86cd799439012"/>
     <image:image>
       <image:loc>https://example.com/image2.jpg</image:loc>
       <image:title>NEET 2026: Complete Preparation Guide</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://getcollegeadmission.com/blogs/mba-admissions-2026-guide-607f1f77bcf86cd799439013</loc>
+    <loc>/blogs/mba-admissions-2026-guide-607f1f77bcf86cd799439013</loc>
     <lastmod>2026-04-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://getcollegeadmission.com/blogs/mba-admissions-2026-guide-607f1f77bcf86cd799439013"/>
     <image:image>
       <image:loc>https://example.com/image3.jpg</image:loc>
       <image:title>MBA Admissions 2026: What You Need to Know</image:title>

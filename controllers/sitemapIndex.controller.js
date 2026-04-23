@@ -1,21 +1,21 @@
-const BASE_URL = "https://getcollegeadmission.com";
+const BASE_URL = process.env.BASE_URL || "https://getcollegeadmission.in";
 const today = new Date().toISOString().split("T")[0];
 
 export const generateSitemapIndex = async (req, res) => {
   try {
     const sitemaps = [
       {
-        loc: `${BASE_URL}/sitemap-static.xml`,
+        loc: `${BASE_URL}/api/sitemap/static`,
         lastmod: today,
         priority: "1.0",
       },
       {
-        loc: `${BASE_URL}/sitemap-colleges.xml`,
+        loc: `${BASE_URL}/api/sitemap/colleges`,
         lastmod: today,
         priority: "0.9",
       },
       {
-        loc: `${BASE_URL}/sitemap-blogs.xml`,
+        loc: `${BASE_URL}/api/sitemap/blogs`,
         lastmod: today,
         priority: "0.9",
       },

@@ -1,5 +1,7 @@
 import College from "../models/college.model.js";
 
+const BASE_URL = process.env.BASE_URL || "https://getcollegeadmission.in";
+
 const generateSlug = (text) => {
   return text
     .toLowerCase()
@@ -11,7 +13,7 @@ const generateSlug = (text) => {
 
 export const generateCollegeSitemap = async (req, res) => {
   try {
-    const baseUrl = "https://getcollegeadmission.com";
+    const baseUrl = BASE_URL;
     const today = new Date().toISOString().split("T")[0];
 
     const colleges = await College.find({}, "name slug city state type updatedAt")
@@ -94,7 +96,7 @@ export const generateCollegeSitemap = async (req, res) => {
 };
 
 export const generateCollegeSitemapStatic = async () => {
-  const baseUrl = "https://getcollegeadmission.com";
+  const baseUrl = BASE_URL;
   const today = new Date().toISOString().split("T")[0];
 
   const colleges = await College.find({}, "name slug city state type updatedAt")

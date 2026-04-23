@@ -34,51 +34,33 @@ function escapeXml(unsafe) {
 
 function generateSitemapIndex() {
   return `<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="${BASE_URL}/sitemap.xsl"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-              http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd">
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>${BASE_URL}/sitemap-static.xml</loc>
+    <loc>/sitemap-static.xml</loc>
     <lastmod>${today}</lastmod>
   </sitemap>
   <sitemap>
-    <loc>${BASE_URL}/sitemap-colleges.xml</loc>
+    <loc>/sitemap-colleges.xml</loc>
     <lastmod>${today}</lastmod>
   </sitemap>
   <sitemap>
-    <loc>${BASE_URL}/sitemap-blogs.xml</loc>
+    <loc>/sitemap-blogs.xml</loc>
     <lastmod>${today}</lastmod>
   </sitemap>
 </sitemapindex>`;
 }
 
-function generateStaticSitemap() {
-  const staticPages = [
-    { url: "/", priority: "1.0", changefreq: "daily" },
-    { url: "/colleges", priority: "0.9", changefreq: "daily" },
-    { url: "/blogs", priority: "0.9", changefreq: "daily" },
-    { url: "/engineering", priority: "0.85", changefreq: "weekly" },
-    { url: "/medical", priority: "0.85", changefreq: "weekly" },
-    { url: "/management", priority: "0.85", changefreq: "weekly" },
-    { url: "/about", priority: "0.7", changefreq: "monthly" },
-    { url: "/contact", priority: "0.8", changefreq: "monthly" },
-    { url: "/privacy-policy", priority: "0.5", changefreq: "yearly" },
-    { url: "/terms-of-service", priority: "0.5", changefreq: "yearly" },
-  ];
-
+function generateStaticSitemap(staticPages) {
   let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 `;
 
   sitemap += staticPages.map(page => `  <url>
-    <loc>${BASE_URL}${page.url}</loc>
-    <lastmod>${today}</lastmod>
+    <loc>${page.url}</loc>
+    <lastmod>${page.lastmod}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="${BASE_URL}${page.url}"/>
   </url>`).join("\n");
 
   sitemap += "\n</urlset>";
@@ -86,11 +68,6 @@ function generateStaticSitemap() {
 }
 
 function generateCollegeSitemap(colleges) {
-  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-`;
-
   const indexPages = [
     { url: "/colleges", priority: "0.9", changefreq: "daily" },
     { url: "/engineering", priority: "0.85", changefreq: "weekly" },
@@ -98,22 +75,25 @@ function generateCollegeSitemap(colleges) {
     { url: "/management", priority: "0.85", changefreq: "weekly" },
   ];
 
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+`;
+
   sitemap += indexPages.map(page => `  <url>
-    <loc>${BASE_URL}${page.url}</loc>
+    <loc>${page.url}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="${BASE_URL}${page.url}"/>
   </url>`).join("\n");
 
   sitemap += "\n\n  <!-- Individual College Pages -->\n";
 
   sitemap += colleges.map(college => `  <url>
-    <loc>${BASE_URL}/college/${college.slug}-${college._id}</loc>
+    <loc>/college/${college.slug}-${college._id}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="${BASE_URL}/college/${college.slug}-${college._id}"/>
+    <priority>0.8</priority>
   </url>`).join("\n");
 
   sitemap += "\n</urlset>";
@@ -121,38 +101,27 @@ function generateCollegeSitemap(colleges) {
 }
 
 function generateBlogSitemap(blogs) {
-  const categories = [...new Set(blogs.map(b => b.category?.toLowerCase()).filter(Boolean))];
-  const allTags = [...new Set(blogs.flatMap(b => b.tags || []).filter(Boolean))];
-
   let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 `;
 
-  sitemap += `  <!-- Blog Category Pages -->\n`;
-  sitemap += categories.map(cat => `  <url>
-    <loc>${BASE_URL}/blogs?category=${encodeURIComponent(cat)}</loc>
+  sitemap += `  <url>
+    <loc>/blogs</loc>
+    <lastmod>${today}</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-    <lastmod>${today}</lastmod>
-  </url>`).join("\n");
+    <priority>0.9</priority>
+  </url>
 
-  sitemap += `\n\n  <!-- Blog Tag Pages -->\n`;
-  sitemap += allTags.slice(0, 100).map(tag => `  <url>
-    <loc>${BASE_URL}/blogs?tag=${encodeURIComponent(tag)}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-    <lastmod>${today}</lastmod>
-  </url>`).join("\n");
+  <!-- Individual Blog Posts -->
+`;
 
-  sitemap += `\n\n  <!-- Individual Blog Posts -->\n`;
   sitemap += blogs.map(blog => `  <url>
-    <loc>${BASE_URL}/blogs/${blog.slug}-${blog._id}</loc>
+    <loc>/blogs/${blog.slug}-${blog._id}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="${BASE_URL}/blogs/${blog.slug}-${blog._id}"/>
     <image:image>
       <image:loc>${blog.coverImage || ""}</image:loc>
       <image:title>${escapeXml(blog.title)}</image:title>
@@ -161,78 +130,6 @@ function generateBlogSitemap(blogs) {
 
   sitemap += "\n</urlset>";
   return sitemap;
-}
-
-function generateSitemapXsl() {
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0"
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
-  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
-  <xsl:template match="/">
-    <html>
-      <head>
-        <title>Sitemap - GetCollegeAdmission</title>
-        <meta charset="UTF-8"/>
-        <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; padding: 2rem; }
-          .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-          h1 { color: #333; margin-bottom: 1rem; }
-          table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-          th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-          th { background: #f8f9fa; font-weight: 600; color: #555; }
-          a { color: #667eea; text-decoration: none; }
-          a:hover { text-decoration: underline; }
-          .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
-          .high { background: #d4edda; color: #155724; }
-          .medium { background: #fff3cd; color: #856404; }
-          .low { background: #f8d7da; color: #721c24; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <h1>Sitemap - GetCollegeAdmission.com</h1>
-          <p>Generated: ${today}</p>
-          <table>
-            <thead>
-              <tr>
-                <th>URL</th>
-                <th>Priority</th>
-                <th>Change Frequency</th>
-                <th>Last Modified</th>
-              </tr>
-            </thead>
-            <tbody>
-              <xsl:for-each select="sitemap:urlset/sitemap:url">
-                <tr>
-                  <td><a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc"/></a></td>
-                  <td><span class="badge"><xsl:value-of select="sitemap:priority"/></span></td>
-                  <td><xsl:value-of select="sitemap:changefreq"/></td>
-                  <td><xsl:value-of select="sitemap:lastmod"/></td>
-                </tr>
-              </xsl:for-each>
-            </tbody>
-          </table>
-        </div>
-      </body>
-    </html>
-  </xsl:template>
-</xsl:stylesheet>`;
-}
-
-function generateRobotsTxt() {
-  return `# Robots.txt for GetCollegeAdmission.com
-# Generated: ${today}
-
-User-agent: *
-Allow: /
-
-Sitemap: ${BASE_URL}/sitemap.xml
-
-Disallow: /api/
-Disallow: /admin/
-`;
 }
 
 async function generateSitemaps() {
@@ -263,28 +160,41 @@ async function generateSitemaps() {
       console.log("Database connected and fetched data");
     } catch (dbError) {
       console.log("Database unavailable, using sample data");
-      console.log("Note: Run with database connected for real data");
     }
 
     console.log(`Generating sitemaps with ${colleges.length} colleges and ${blogs.length} blogs...`);
 
+    const staticPages = [
+      { url: "/", priority: "1.0", changefreq: "daily", lastmod: today },
+      { url: "/colleges", priority: "0.9", changefreq: "daily", lastmod: today },
+      { url: "/engineering", priority: "0.85", changefreq: "weekly", lastmod: today },
+      { url: "/medical", priority: "0.85", changefreq: "weekly", lastmod: today },
+      { url: "/management", priority: "0.85", changefreq: "weekly", lastmod: today },
+      { url: "/blogs", priority: "0.9", changefreq: "daily", lastmod: today },
+      { url: "/contact", priority: "0.8", changefreq: "monthly", lastmod: today },
+      { url: "/compare", priority: "0.6", changefreq: "weekly", lastmod: today },
+    ];
+
     fs.writeFileSync(path.join(publicDir, "sitemap.xml"), generateSitemapIndex());
-    fs.writeFileSync(path.join(publicDir, "sitemap-static.xml"), generateStaticSitemap());
+    fs.writeFileSync(path.join(publicDir, "sitemap-static.xml"), generateStaticSitemap(staticPages));
     fs.writeFileSync(path.join(publicDir, "sitemap-colleges.xml"), generateCollegeSitemap(colleges));
     fs.writeFileSync(path.join(publicDir, "sitemap-blogs.xml"), generateBlogSitemap(blogs));
-    fs.writeFileSync(path.join(publicDir, "sitemap.xsl"), generateSitemapXsl());
-    fs.writeFileSync(path.join(publicDir, "robots.txt"), generateRobotsTxt());
 
-    const totalUrls = 10 + colleges.length + blogs.length + 2 + Math.min(blogs.flatMap(b => b.tags || []).length, 100);
-    console.log(`\nGenerated ${totalUrls} URLs`);
-    console.log("Files created in frontend/public/:");
-    console.log("  - sitemap.xml");
-    console.log("  - sitemap-static.xml");
-    console.log("  - sitemap-colleges.xml");
-    console.log("  - sitemap-blogs.xml");
-    console.log("  - sitemap.xsl");
-    console.log("  - robots.txt");
-    console.log("\nDone!");
+    const robotsTxt = `# Robots.txt for GetCollegeAdmission.com
+# Generated: ${today}
+
+User-agent: *
+Allow: /
+
+Sitemap: /sitemap.xml
+
+Disallow: /api/
+Disallow: /admin/
+`;
+    fs.writeFileSync(path.join(publicDir, "robots.txt"), robotsTxt);
+
+    console.log(`\nGenerated sitemap files in frontend/public/`);
+    console.log("Done!");
 
   } catch (error) {
     console.error("Error:", error.message);
