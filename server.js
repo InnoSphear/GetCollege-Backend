@@ -16,14 +16,14 @@ dotenv.config();
 const app = express();
 
 app.use(cors())
-// app.use(express.json());
-// app.use("/api", collegeRoutes);
-// app.use("/api", userRoutes);
-// app.use("/api", blogRoutes);
-// app.use("/api", contactInfoRoutes);
-// app.use("/api", sitemapRoutes);
-// app.use("/api", landingPageRoutes);
-// app.use("/api", uploadRoutes);
+app.use(express.json());
+app.use("/api", collegeRoutes);
+app.use("/api", userRoutes);
+app.use("/api", blogRoutes);
+app.use("/api", contactInfoRoutes);
+app.use("/api", sitemapRoutes);
+app.use("/api", landingPageRoutes);
+app.use("/api", uploadRoutes);
 
 app.get("/api/npf-proxy", async (req, res) => {
   try {
