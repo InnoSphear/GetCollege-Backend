@@ -20,14 +20,14 @@ app.use(express.json());
 app.use("/api", collegeRoutes);
 app.use("/api", userRoutes);
 //app.use("/api", blogRoutes);
-app.use("/api", contactInfoRoutes);
+//app.use("/api", contactInfoRoutes);
 //app.use("/api", sitemapRoutes);
 //app.use("/api", landingPageRoutes);
 //app.use("/api", uploadRoutes);
 //app.get("/api/npf-proxy", async (req, res) => {
-//  try {
-//    const widgetId = req.query.w || "ae2953a41c5d2fd23c3d93c3b1b8185d";
-//    const response = await axios.get(`https://widgets.in4.nopaperforms.com/js/emwgts.js?w=${widgetId}`, {
+  try {
+    const widgetId = req.query.w || "ae2953a41c5d2fd23c3d93c3b1b8185d";
+    const response = await axios.get(`https://widgets.in4.nopaperforms.com/js/emwgts.js?w=${widgetId}`, {
       headers: {
         'Accept': '*/*',
       }
