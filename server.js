@@ -19,7 +19,7 @@ app.use(cors())
 app.use(express.json());
 app.use("/api", collegeRoutes);
 app.use("/api", userRoutes);
-app.use("/api", blogRoutes);
+//app.use("/api", blogRoutes);
 app.use("/api", contactInfoRoutes);
 //app.use("/api", sitemapRoutes);
 //app.use("/api", landingPageRoutes);
