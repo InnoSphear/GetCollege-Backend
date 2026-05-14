@@ -1,15 +1,15 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import ConnectDb from "./config/db.js";
-import collegeRoutes from "./routes/college.route.js";
-import userRoutes from "./routes/user.route.js";
-import blogRoutes from "./routes/blog.route.js";
-import contactInfoRoutes from "./routes/contactInfo.route.js";
-import sitemapRoutes from "./routes/sitemap.route.js";
-import landingPageRoutes from "./routes/landingPage.route.js";
-import uploadRoutes from "./routes/upload.route.js";
-import axios from "axios";
+// import express from "express";
+// import cors from "cors";
+// import dotenv from "dotenv";
+// import ConnectDb from "./config/db.js";
+// import collegeRoutes from "./routes/college.route.js";
+// import userRoutes from "./routes/user.route.js";
+// import blogRoutes from "./routes/blog.route.js";
+// import contactInfoRoutes from "./routes/contactInfo.route.js";
+// import sitemapRoutes from "./routes/sitemap.route.js";
+// import landingPageRoutes from "./routes/landingPage.route.js";
+// import uploadRoutes from "./routes/upload.route.js";
+// import axios from "axios";
 
 dotenv.config();
 
