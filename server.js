@@ -1,29 +1,29 @@
-// import express from "express";
-// import cors from "cors";
-// import dotenv from "dotenv";
-// import ConnectDb from "./config/db.js";
-// import collegeRoutes from "./routes/college.route.js";
-// import userRoutes from "./routes/user.route.js";
-// import blogRoutes from "./routes/blog.route.js";
-// import contactInfoRoutes from "./routes/contactInfo.route.js";
-// import sitemapRoutes from "./routes/sitemap.route.js";
-// import landingPageRoutes from "./routes/landingPage.route.js";
-// import uploadRoutes from "./routes/upload.route.js";
-// import axios from "axios";
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import ConnectDb from "./config/db.js";
+import collegeRoutes from "./routes/college.route.js";
+import userRoutes from "./routes/user.route.js";
+import blogRoutes from "./routes/blog.route.js";
+import contactInfoRoutes from "./routes/contactInfo.route.js";
+import sitemapRoutes from "./routes/sitemap.route.js";
+import landingPageRoutes from "./routes/landingPage.route.js";
+import uploadRoutes from "./routes/upload.route.js";
+import axios from "axios";
 
 dotenv.config();
 
 const app = express();
 
-// app.use(cors())
-// app.use(express.json());
-// app.use("/api", collegeRoutes);
-// app.use("/api", userRoutes);
-// //app.use("/api", blogRoutes);
-// //app.use("/api", contactInfoRoutes);
-// //app.use("/api", sitemapRoutes);
-// //app.use("/api", landingPageRoutes);
-// //app.use("/api", uploadRoutes);
+app.use(cors())
+app.use(express.json());
+app.use("/api", collegeRoutes);
+app.use("/api", userRoutes);
+//app.use("/api", blogRoutes);
+//app.use("/api", contactInfoRoutes);
+//app.use("/api", sitemapRoutes);
+//app.use("/api", landingPageRoutes);
+//app.use("/api", uploadRoutes);
 app.get("/api/npf-proxy", async (req, res) => {
   try {
     const widgetId = req.query.w || "ae2953a41c5d2fd23c3d93c3b1b8185d";
