@@ -103,7 +103,7 @@ const collegeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-collegeSchema.pre("validate", function setDerivedFields(next) {
+collegeSchema.pre("validate", function setDerivedFields() {
   if (!this.slug && this.name) {
     this.slug = slugify(this.name);
   }
@@ -136,8 +136,6 @@ collegeSchema.pre("validate", function setDerivedFields(next) {
       this.feesRange = `INR ${min.toLocaleString()} - ${max.toLocaleString()}`;
     }
   }
-
-  next();
 });
 
 const College = mongoose.model("College", collegeSchema);
