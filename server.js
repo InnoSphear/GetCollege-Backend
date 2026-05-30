@@ -9,6 +9,7 @@ import contactInfoRoutes from "./routes/contactInfo.route.js";
 import sitemapRoutes from "./routes/sitemap.route.js";
 import landingPageRoutes from "./routes/landingPage.route.js";
 import uploadRoutes from "./routes/upload.route.js";
+import authRoutes from "./routes/auth.route.js";
 import axios from "axios";
 
 dotenv.config();
@@ -24,6 +25,11 @@ app.use("/api", contactInfoRoutes);
 app.use("/api", sitemapRoutes);
 app.use("/api", landingPageRoutes);
 app.use("/api", uploadRoutes);
+<<<<<<< HEAD
+=======
+app.use("/api", authRoutes);
+
+>>>>>>> 73a953d (fixed errors)
 app.get("/api/npf-proxy", async (req, res) => {
   try {
     const widgetId = req.query.w || "ae2953a41c5d2fd23c3d93c3b1b8185d";
