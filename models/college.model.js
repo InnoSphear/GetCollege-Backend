@@ -49,7 +49,7 @@ const collegeSchema = new mongoose.Schema(
     approvals: [{ type: String, trim: true }],
     tags: [{ type: String, trim: true }],
     image: [{ type: String, trim: true }],
-    description: { type: String, required: true },
+    description: { type: String, default: "" },
     shortDescription: { type: String, trim: true },
     aboutHeading: { type: String, trim: true },
     mode: {
@@ -114,6 +114,10 @@ collegeSchema.pre("validate", function setDerivedFields(next) {
 
   if (!this.bannerImage && this.image?.length) {
     this.bannerImage = this.image[0];
+  }
+
+  if (!this.description) {
+    this.description = this.name ? `${this.name} - Details and Information` : "";
   }
 
   if (!this.shortDescription && this.description) {
