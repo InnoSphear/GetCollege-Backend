@@ -41,9 +41,15 @@ export const getAllColleges = async (req, res) => {
 export const getCollegeById = async (req, res) => {
   try {
     const { id } = req.params;
-    const college = await College.findOne({
-      $or: [{ _id: id }, { slug: id }],
-    });
+    let college = null;
+
+    if (id.length === 24) {
+      college = await College.findById(id);
+    }
+
+    if (!college) {
+      college = await College.findOne({ slug: id });
+    }
 
     if (!college) {
       return res.status(404).json({

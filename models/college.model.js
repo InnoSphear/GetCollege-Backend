@@ -11,8 +11,8 @@ const slugify = (value = "") =>
 const courseSchema = new mongoose.Schema(
   {
     courseName: { type: String, required: true, trim: true },
-    fee: { type: String, required: true, trim: true },
-    placement: { type: String, required: true, trim: true },
+    fee: { type: String, trim: true },
+    placement: { type: String, trim: true },
     duration: { type: String, trim: true },
     mode: {
       type: String,

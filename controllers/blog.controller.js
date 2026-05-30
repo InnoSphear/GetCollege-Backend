@@ -19,7 +19,13 @@ export const createBlog = async (req, res) => {
       });
     }
 
-    const slug = payload.slug ? toSlug(payload.slug) : toSlug(payload.title);
+    let slug = payload.slug ? toSlug(payload.slug) : toSlug(payload.title);
+
+    const existing = await Blog.findOne({ slug });
+    if (existing) {
+      slug = `${slug}-${Date.now()}`;
+    }
+
     payload.slug = slug;
 
     const blog = await Blog.create(payload);
@@ -40,7 +46,17 @@ export const getAllBlogs = async (req, res) => {
 
 export const getBlogById = async (req, res) => {
   try {
-    const blog = await Blog.findById(req.params.id);
+    const { id } = req.params;
+    let blog = null;
+
+    if (id.length === 24) {
+      blog = await Blog.findById(id);
+    }
+
+    if (!blog) {
+      blog = await Blog.findOne({ slug: id });
+    }
+
     if (!blog) {
       return res.status(404).json({ success: false, message: "Blog not found" });
     }
@@ -54,7 +70,12 @@ export const updateBlog = async (req, res) => {
   try {
     const payload = { ...req.body };
     if (payload.slug) {
-      payload.slug = toSlug(payload.slug);
+      let slug = toSlug(payload.slug);
+      const existing = await Blog.findOne({ slug, _id: { $ne: req.params.id } });
+      if (existing) {
+        slug = `${slug}-${Date.now()}`;
+      }
+      payload.slug = slug;
     }
 
     const blog = await Blog.findByIdAndUpdate(req.params.id, payload, {
