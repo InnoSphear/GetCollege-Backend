@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import { sendLeadNotification } from "../services/whatsapp.service.js";
 
 export const register = async (req, res) => {
   try {
@@ -19,27 +20,25 @@ export const register = async (req, res) => {
       comparisonHistory,
     } = req.body;
 
-    if (!name || !email || !mobile || !course) {
+    if (!name || !mobile || !course) {
       return res.status(400).json({
         success: false,
-        message: "Name, email, mobile, and course are required",
+        message: "Name, mobile, and course are required",
       });
     }
 
-    const existingUser = await User.findOne({
-      $or: [{ email }, { mobile }],
-    });
+    const existingUser = await User.findOne({ mobile });
 
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: "Lead already exists with this email or mobile",
+        message: "Lead already exists with this mobile number",
       });
     }
 
     const user = await User.create({
       name,
-      email,
+      email: email || `${mobile}@lead.getcollege.local`,
       mobile,
       course,
       state,
@@ -54,12 +53,15 @@ export const register = async (req, res) => {
       comparisonHistory,
     });
 
+    sendLeadNotification(user);
+
     return res.status(200).json({
       success: true,
       message: "Lead created successfully",
       data: user,
     });
   } catch (error) {
+    console.error("Registration error:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
